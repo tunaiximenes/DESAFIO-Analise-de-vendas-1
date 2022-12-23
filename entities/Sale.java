@@ -52,13 +52,13 @@ public class Sale {
         return total;
     }
 
-    public Double averagePrice(Double price, Integer item) {
-        return price / items;
+    public Double averagePrice() {
+        return total / items;
     }
 
     @Override
     public String toString() {
-        return moth + "/" + year + ", " + seller + ", " + items + ", " + String.format("%.2f",total) + ", " + "pm = " + String.format("%.2f",averagePrice(total, items));
+        return moth + "/" + year + ", " + seller + ", " + items + ", " + String.format("%.2f",total) + ", " + "pm = " + String.format("%.2f",averagePrice());
     }
 
     public void setTotal(Double total) {

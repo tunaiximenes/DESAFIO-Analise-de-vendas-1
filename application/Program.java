@@ -3,12 +3,10 @@ package application;
 import entities.Sale;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Program {
@@ -16,8 +14,8 @@ public class Program {
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
 
-        String path = "c:\\temp\\base-de-dados.csv";
-        System.out.println("Entre o caminho do arquivo: " + path);
+        System.out.print("Entre o caminho do arquivo: ");
+        String path = sc.nextLine();
         System.out.println();
 
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
@@ -32,10 +30,8 @@ public class Program {
 
             }
 
-            lstSale.stream().filter(x -> x.getYear() == 2016).collect(Collectors.toList());
-
             System.out.println("Cinco primeiras vendas de 2016 de maior preço médio");
-            lstSale.stream().filter(x -> x.getYear() == 2016).collect(Collectors.toList()).forEach(System.out::println);
+            lstSale.stream().filter(x -> x.getYear() == 2016).sorted(Comparator.comparing(Sale::averagePrice).reversed()).limit(5).collect(Collectors.toList()).forEach(System.out::println);
 
             Double sum = lstSale.stream()
                     .filter(s -> (s.getSeller().equals("Logan") && s.getMoth() == 1) ||
@@ -47,7 +43,9 @@ public class Program {
             System.out.printf("Valor total vendido pelo vendedor Logan nos meses 1 e 7 = " + String.format("%.2f",sum));
 
 
-        }catch (IOException e){
+        } catch (FileNotFoundException e){
+            System.out.println("Erro: "+ path + " (O Sistema não pode encontrar o arquivo especificado)");
+        } catch (IOException e){
             System.out.println("Erro: " + e.getMessage());
         }
     }
